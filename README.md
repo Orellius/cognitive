@@ -219,4 +219,4 @@ Each crate is independent except:
 
 Licensed under the Apache License, Version 2.0 — see [LICENSE](LICENSE) for details.
 
-Copyright 2025 Orel Ohayon.
+Copyright 2026 Orel Ohayon.
