@@ -7,8 +7,8 @@
 <p align="center"><strong>The missing layer between raw LLMs and production AI.</strong></p>
 
 Laminae (Latin: *layers*) is a modular Rust SDK that adds personality, voice, safety, learning, and containment to any AI application. Each layer works independently or together as a full stack.
-
 <p align="center">
+
 ```
 ┌─────────────────────────────────────────────┐
 │              Your Application               │
