@@ -646,11 +646,14 @@ name = "laminae"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "futures-util",
  "laminae-glassbox",
  "laminae-ironclad",
  "laminae-ollama",
  "laminae-psyche",
  "laminae-shadow",
+ "reqwest",
+ "serde_json",
  "tokio",
  "tracing-subscriber",
 ]

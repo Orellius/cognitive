@@ -183,12 +183,16 @@ See the [`crates/laminae/examples/`](crates/laminae/examples/) directory:
 | [`shadow_audit.rs`](crates/laminae/examples/shadow_audit.rs) | Red-teaming AI output for vulnerabilities |
 | [`safe_execution.rs`](crates/laminae/examples/safe_execution.rs) | Glassbox + Ironclad working together |
 | [`full_stack.rs`](crates/laminae/examples/full_stack.rs) | All four layers in a complete pipeline |
+| [`ego_claude.rs`](crates/laminae/examples/ego_claude.rs) | EgoBackend for Claude (Anthropic API) |
+| [`ego_openai.rs`](crates/laminae/examples/ego_openai.rs) | EgoBackend for GPT-4o (OpenAI API) with streaming |
 
 ```bash
 cargo run -p laminae --example quickstart
 cargo run -p laminae --example shadow_audit
 cargo run -p laminae --example safe_execution
 cargo run -p laminae --example full_stack
+ANTHROPIC_API_KEY=sk-ant-... cargo run -p laminae --example ego_claude
+OPENAI_API_KEY=sk-... cargo run -p laminae --example ego_openai
 ```
 
 ## Architecture

