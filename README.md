@@ -6,13 +6,15 @@
 
 <p align="center"><strong>The missing layer between raw LLMs and production AI.</strong></p>
 
-Laminae (Latin: *layers*) is a modular Rust SDK that adds personality, safety, red-teaming, and process sandboxing to any AI application. Each layer works independently or together as a full stack.
+Laminae (Latin: *layers*) is a modular Rust SDK that adds personality, voice, safety, learning, and containment to any AI application. Each layer works independently or together as a full stack.
 
 ```
 ┌─────────────────────────────────────────────┐
 │              Your Application               │
 ├─────────────────────────────────────────────┤
 │  Psyche    │ Multi-agent cognitive pipeline │
+│  Persona   │ Voice extraction & enforcement │
+│  Cortex    │ Self-improving learning loop   │
 │  Shadow    │ Adversarial red-teaming        │
 │  Ironclad  │ Process execution sandbox      │
 │  Glassbox  │ I/O containment layer          │
@@ -26,9 +28,9 @@ Laminae (Latin: *layers*) is a modular Rust SDK that adds personality, safety, r
 
 Every AI app reinvents safety, prompt injection defense, and output validation from scratch. Most skip it entirely. Laminae provides production-grade layers that sit between your LLM and your users — enforced in Rust, not in prompts.
 
-**No existing SDK does this.** LangChain, LlamaIndex, and others focus on retrieval and chaining. Laminae focuses on what happens *around* the LLM: shaping its personality, auditing its output, sandboxing its actions, and containing its reach.
+**No existing SDK does this.** LangChain, LlamaIndex, and others focus on retrieval and chaining. Laminae focuses on what happens *around* the LLM: shaping its personality, learning from corrections, auditing its output, sandboxing its actions, and containing its reach.
 
-## The Four Layers
+## The Layers
 
 ### Psyche — Multi-Agent Cognitive Pipeline
 
@@ -68,6 +70,60 @@ async fn main() -> anyhow::Result<()> {
 ```
 
 **Automatic tier classification** — simple messages (greetings, factual lookups) bypass Psyche entirely. Medium messages use COP (Compressed Output Protocol) for fast processing. Complex messages get the full pipeline.
+
+### Persona — Voice Extraction & Style Enforcement
+
+Extracts a writing personality from text samples and enforces it on LLM output. Platform-agnostic — works for emails, docs, chat, code reviews, support tickets.
+
+- **7-dimension extraction** — tone, humor, vocabulary, formality, perspective, emotional style, narrative preference
+- **Anti-hallucination** — validates LLM-claimed examples against real samples, cross-checks expertise claims
+- **Voice filter** — 6-layer post-generation rejection system catches AI-sounding output (60+ built-in AI phrase patterns)
+- **Voice DNA** — tracks distinctive phrases confirmed by repeated use, reinforces authentic style
+
+```rust
+use laminae::persona::{PersonaExtractor, VoiceFilter, VoiceFilterConfig, compile_persona};
+
+// Extract a persona from text samples
+let extractor = PersonaExtractor::new("qwen2.5:7b");
+let persona = extractor.extract(&samples).await?;
+let prompt_block = compile_persona(&persona);
+
+// Post-generation: catch AI-sounding output
+let filter = VoiceFilter::new(VoiceFilterConfig::default());
+let result = filter.check("It's important to note that...");
+// result.passed = false, result.violations = ["AI vocabulary detected: ..."]
+// result.retry_hints = ["DO NOT use formal/academic language..."]
+```
+
+### Cortex — Self-Improving Learning Loop
+
+Tracks how users edit AI output and converts corrections into reusable instructions — without fine-tuning. The AI gets better with every edit.
+
+- **8 pattern types** — shortened, removed questions, stripped AI phrases, tone shifts, added content, simplified language, changed openers
+- **LLM-powered analysis** — converts edit diffs into natural-language instructions ("Never start with I think")
+- **Deduplicated store** — instructions ranked by reinforcement count, 80% word overlap deduplication
+- **Prompt injection** — top instructions formatted as a prompt block for any LLM
+
+```rust
+use laminae::cortex::{Cortex, CortexConfig};
+
+let mut cortex = Cortex::new(CortexConfig::default());
+
+// Track edits over time
+cortex.track_edit("It's worth noting that Rust is fast.", "Rust is fast.");
+cortex.track_edit("Furthermore, the type system is robust.", "The type system catches bugs.");
+
+// Detect patterns
+let patterns = cortex.detect_patterns();
+// → [RemovedAiPhrases: 100%, Shortened: 100%]
+
+// Get prompt block for injection
+let hints = cortex.get_prompt_block();
+// → "--- USER PREFERENCES (learned from actual edits) ---
+//    - Never use academic hedging phrases
+//    - Keep sentences short and direct
+//    ---"
+```
 
 ### Shadow — Adversarial Red-Teaming
 
@@ -165,6 +221,8 @@ tokio = { version = "1", features = ["full"] }
 # Or pick individual layers
 [dependencies]
 laminae-psyche = "0.1"    # Just the cognitive pipeline
+laminae-persona = "0.1"   # Just voice extraction & enforcement
+laminae-cortex = "0.1"    # Just the learning loop
 laminae-shadow = "0.1"    # Just the red-teaming
 laminae-glassbox = "0.1"  # Just the containment
 laminae-ironclad = "0.1"  # Just the sandbox
@@ -204,6 +262,8 @@ OPENAI_API_KEY=sk-... cargo run -p laminae --example ego_openai
 ```
 laminae (meta-crate)
 ├── laminae-psyche     ← EgoBackend trait + Id/Superego pipeline
+├── laminae-persona    ← Voice extraction, filter, DNA tracking
+├── laminae-cortex     ← Edit tracking, pattern detection, instruction learning
 ├── laminae-shadow     ← Analyzer trait + static/LLM/sandbox stages
 ├── laminae-ironclad   ← Command whitelist + sandbox-exec + watchdog
 ├── laminae-glassbox   ← GlassboxLogger trait + validation + rate limiter
@@ -212,6 +272,8 @@ laminae (meta-crate)
 
 Each crate is independent except:
 - `laminae-psyche` depends on `laminae-ollama` (for Id/Superego LLM calls)
+- `laminae-persona` depends on `laminae-ollama` (for voice extraction)
+- `laminae-cortex` depends on `laminae-ollama` (for LLM-powered edit analysis)
 - `laminae-shadow` depends on `laminae-ollama` (for LLM adversarial review)
 - `laminae-ironclad` depends on `laminae-glassbox` (for event logging)
 
