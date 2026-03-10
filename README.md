@@ -6,6 +6,17 @@
 
 <p align="center"><strong>The missing layer between raw LLMs and production AI.</strong></p>
 
+<p align="center">
+  <a href="https://crates.io/crates/laminae"><img src="https://img.shields.io/crates/v/laminae.svg" alt="crates.io" /></a>
+  <a href="https://crates.io/crates/laminae"><img src="https://img.shields.io/crates/d/laminae.svg" alt="downloads" /></a>
+  <a href="https://github.com/orellius/laminae/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg" alt="license" /></a>
+  <a href="https://github.com/orellius/laminae"><img src="https://img.shields.io/badge/rust-1.75%2B-orange.svg" alt="rust" /></a>
+</p>
+
+<p align="center">
+  If you find Laminae useful, consider giving it a ⭐ — it helps others discover the project!
+</p>
+
 Laminae (Latin: *layers*) is a modular Rust SDK that adds personality, voice, safety, learning, and containment to any AI application. Each layer works independently or together as a full stack.
 <p align="center">
 
@@ -314,3 +325,7 @@ Built by [Orel Ohayon](https://orellius.ai) — solo dev building open-source Ru
 Licensed under the Apache License, Version 2.0 — see [LICENSE](LICENSE) for details.
 
 Copyright 2026 Orel Ohayon.
+
+---
+
+<p align="center">Made with ❤️ for the love of AIs and for the Community.</p>
