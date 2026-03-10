@@ -832,7 +832,7 @@ dependencies = [
 
 [[package]]
 name = "laminae"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "anyhow",
  "chrono",
@@ -854,7 +854,7 @@ dependencies = [
 
 [[package]]
 name = "laminae-anthropic"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "anyhow",
  "futures-util",
@@ -868,7 +868,7 @@ dependencies = [
 
 [[package]]
 name = "laminae-cortex"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "anyhow",
  "chrono",
@@ -883,7 +883,7 @@ dependencies = [
 
 [[package]]
 name = "laminae-glassbox"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "chrono",
  "criterion",
@@ -893,7 +893,7 @@ dependencies = [
 
 [[package]]
 name = "laminae-ironclad"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "anyhow",
  "criterion",
@@ -905,7 +905,7 @@ dependencies = [
 
 [[package]]
 name = "laminae-ollama"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "anyhow",
  "futures-util",
@@ -918,7 +918,7 @@ dependencies = [
 
 [[package]]
 name = "laminae-openai"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "anyhow",
  "futures-util",
@@ -932,7 +932,7 @@ dependencies = [
 
 [[package]]
 name = "laminae-persona"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "anyhow",
  "chrono",
@@ -948,7 +948,7 @@ dependencies = [
 
 [[package]]
 name = "laminae-psyche"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "anyhow",
  "dirs",
@@ -961,7 +961,7 @@ dependencies = [
 
 [[package]]
 name = "laminae-python"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "chrono",
  "laminae-cortex",
@@ -972,7 +972,7 @@ dependencies = [
 
 [[package]]
 name = "laminae-shadow"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "anyhow",
  "criterion",
