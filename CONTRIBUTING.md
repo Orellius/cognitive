@@ -11,7 +11,7 @@ cargo test --all
 ```
 
 **Requirements:**
-- Rust 1.75+
+- Rust 1.83+
 - Ollama (optional - needed for Psyche/Shadow LLM tests)
 
 ## Development Workflow

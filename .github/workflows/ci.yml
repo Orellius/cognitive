@@ -63,13 +63,15 @@ jobs:
       - run: cargo audit --ignore RUSTSEC-2025-0020
 
   msrv:
-    name: MSRV (1.75)
+    name: MSRV (1.83)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@1.75
+      - uses: dtolnay/rust-toolchain@1.83
       - uses: Swatinem/rust-cache@v2
-      - run: cargo generate-lockfile && cargo check --workspace --exclude laminae-python
+      - name: Generate MSRV-compatible lockfile
+        run: cargo generate-lockfile
+      - run: cargo check --workspace --exclude laminae-python
 
   python:
     name: Python Bindings

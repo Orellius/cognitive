@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- MSRV raised from 1.75 to 1.83 (required by `icu_provider` 2.x, transitive dep of `reqwest` 0.12).
+
 ## [0.4.0] - 2026-03-11
 
 ### Breaking Changes

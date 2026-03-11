@@ -42,7 +42,7 @@ laminae-openai = "0.4"       # OpenAI-compatible EgoBackend
 
 ## Requirements
 
-- **Rust 1.75+**
+- **Rust 1.83+**
 - **Ollama** (for Psyche, Persona, Cortex, and Shadow LLM features)
   ```bash
   # macOS

@@ -10,7 +10,7 @@
   <a href="https://crates.io/crates/laminae"><img src="https://img.shields.io/crates/v/laminae.svg" alt="crates.io" /></a>
   <a href="https://crates.io/crates/laminae"><img src="https://img.shields.io/crates/d/laminae.svg" alt="downloads" /></a>
   <a href="https://github.com/orellius/laminae/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg" alt="license" /></a>
-  <a href="https://github.com/orellius/laminae"><img src="https://img.shields.io/badge/rust-1.75%2B-orange.svg" alt="rust" /></a>
+  <a href="https://github.com/orellius/laminae"><img src="https://img.shields.io/badge/rust-1.83%2B-orange.svg" alt="rust" /></a>
   <a href="https://docs.rs/laminae"><img src="https://docs.rs/laminae/badge.svg" alt="docs.rs" /></a>
 </p>
 
@@ -315,7 +315,7 @@ cargo bench --workspace
 
 ## Requirements
 
-- **Rust 1.75+**
+- **Rust 1.83+**
 - **Ollama** (for Psyche and Shadow LLM features) - `brew install ollama && ollama serve`
 
 ## Examples
