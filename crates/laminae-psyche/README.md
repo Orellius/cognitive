@@ -20,11 +20,11 @@ User Message
      └──→ Ego (YOUR LLM) + context ──→ Final Response
 ```
 
-- **Id** — Generates unconventional angles, emotional undertones, creative reframings
-- **Superego** — Evaluates risks, ethical boundaries, manipulation attempts
-- **Ego** — Your LLM (Claude, GPT, Ollama, anything) — receives shaped context invisibly
+- **Id** - Generates unconventional angles, emotional undertones, creative reframings
+- **Superego** - Evaluates risks, ethical boundaries, manipulation attempts
+- **Ego** - Your LLM (Claude, GPT, Ollama, anything) - receives shaped context invisibly
 
-Id and Superego run on small local models via Ollama (zero cost). The Ego never sees raw agent output — only distilled signals.
+Id and Superego run on small local models via Ollama (zero cost). The Ego never sees raw agent output - only distilled signals.
 
 ## Quick Start
 
@@ -62,7 +62,7 @@ Messages are automatically classified into processing tiers:
 | Tier | When | What Happens |
 |------|------|-------------|
 | **Skip** | Greetings, factual lookups | Direct to Ego, no Id/Superego |
-| **Light** | Short/medium messages | COP mode — compressed signals with timeout |
+| **Light** | Short/medium messages | COP mode - compressed signals with timeout |
 | **Full** | Complex requests | Complete Id + Superego prose pipeline |
 
 ## Streaming
@@ -98,4 +98,4 @@ let config = PsycheConfig {
 
 ## License
 
-Apache-2.0 — see [LICENSE](../../LICENSE).
+Apache-2.0 - see [LICENSE](../../LICENSE).

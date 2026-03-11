@@ -1,4 +1,4 @@
-# Ironclad — Process Execution Sandbox
+# Ironclad - Process Execution Sandbox
 
 Three hard constraints enforced on all spawned sub-processes.
 

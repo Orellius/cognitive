@@ -22,15 +22,15 @@ Laminae (Latin: *layers*) is a modular Rust SDK that adds personality, voice, sa
 
 ## Why Laminae?
 
-Every AI app reinvents safety, prompt injection defense, and output validation from scratch. Most skip it entirely. Laminae provides production-grade layers that sit between your LLM and your users — enforced in Rust, not in prompts.
+Every AI app reinvents safety, prompt injection defense, and output validation from scratch. Most skip it entirely. Laminae provides structured safety layers that sit between your LLM and your users - enforced in Rust, not in prompts.
 
 **No existing SDK does this.** LangChain, LlamaIndex, and others focus on retrieval and chaining. Laminae focuses on what happens *around* the LLM: shaping its personality, learning from corrections, auditing its output, sandboxing its actions, and containing its reach.
 
 ## Design Philosophy
 
-- **Rust, Not Wrappers** — Every layer is native Rust. Zero-cost abstractions, compile-time safety, no garbage collector.
-- **Layers, Not Monoliths** — Each crate is independent. Use what you need, skip what you don't.
-- **Deterministic, Not Hopeful** — Safety enforced in code, not in prompts. An LLM can't reason its way out of a syscall filter.
+- **Rust, Not Wrappers** - Every layer is native Rust. Zero-cost abstractions, compile-time safety, no garbage collector.
+- **Layers, Not Monoliths** - Each crate is independent. Use what you need, skip what you don't.
+- **Deterministic, Not Hopeful** - Safety enforced in code, not in prompts. An LLM can't reason its way out of a syscall filter.
 
 ## Next Steps
 

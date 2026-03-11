@@ -10,12 +10,12 @@
 
 # The Layers
 
-- [Psyche — Cognitive Pipeline](./layers/psyche.md)
-- [Persona — Voice Enforcement](./layers/persona.md)
-- [Cortex — Learning Loop](./layers/cortex.md)
-- [Shadow — Red-Teaming](./layers/shadow.md)
-- [Ironclad — Process Sandbox](./layers/ironclad.md)
-- [Glassbox — I/O Containment](./layers/glassbox.md)
+- [Psyche - Cognitive Pipeline](./layers/psyche.md)
+- [Persona - Voice Enforcement](./layers/persona.md)
+- [Cortex - Learning Loop](./layers/cortex.md)
+- [Shadow - Red-Teaming](./layers/shadow.md)
+- [Ironclad - Process Sandbox](./layers/ironclad.md)
+- [Glassbox - I/O Containment](./layers/glassbox.md)
 
 # LLM Backends
 

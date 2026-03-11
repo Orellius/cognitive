@@ -15,7 +15,7 @@
 </p>
 
 <p align="center">
-  If you find Laminae useful, consider giving it a ⭐ — it helps others discover the project!
+  If you find Laminae useful, consider giving it a ⭐ - it helps others discover the project!
 </p>
 
 <p align="center">
@@ -44,21 +44,21 @@ Laminae (Latin: *layers*) is an open-source modular Rust SDK that adds guardrail
 
 ## Why Laminae?
 
-Every AI app reinvents safety, prompt injection defense, and output validation from scratch. Most skip it entirely. Laminae provides production-grade layers that sit between your LLM and your users — enforced in Rust, not in prompts.
+Every AI app reinvents safety, prompt injection defense, and output validation from scratch. Most skip it entirely. Laminae provides structured safety layers that sit between your LLM and your users - enforced in Rust, not in prompts.
 
 **No existing SDK does this.** LangChain, LlamaIndex, and others focus on retrieval and chaining. Laminae focuses on what happens *around* the LLM: shaping its personality, learning from corrections, auditing its output, sandboxing its actions, and containing its reach.
 
 ## The Layers
 
-### Psyche — Multi-Agent Cognitive Pipeline
+### Psyche - Multi-Agent Cognitive Pipeline
 
 A Freudian-inspired architecture where three agents shape every response:
 
-- **Id** — Creative force. Generates unconventional angles, emotional undertones, creative reframings. Runs on a small local LLM (Ollama) — zero cost.
-- **Superego** — Safety evaluator. Assesses risks, ethical boundaries, manipulation attempts. Also runs locally — zero cost.
-- **Ego** — Your LLM. Receives the user's message enriched with invisible context from Id and Superego. Produces the final response without knowing it was shaped.
+- **Id** - Creative force. Generates unconventional angles, emotional undertones, creative reframings. Runs on a small local LLM (Ollama) - zero cost.
+- **Superego** - Safety evaluator. Assesses risks, ethical boundaries, manipulation attempts. Also runs locally - zero cost.
+- **Ego** - Your LLM. Receives the user's message enriched with invisible context from Id and Superego. Produces the final response without knowing it was shaped.
 
-The key insight: Id and Superego run on small, fast, local models. Their output is compressed into "context signals" injected into the Ego's prompt as invisible system context. The user never sees the shaping — they just get better, safer responses.
+The key insight: Id and Superego run on small, fast, local models. Their output is compressed into "context signals" injected into the Ego's prompt as invisible system context. The user never sees the shaping - they just get better, safer responses.
 
 ```rust
 use laminae::psyche::{PsycheEngine, EgoBackend, PsycheConfig};
@@ -87,16 +87,16 @@ async fn main() -> anyhow::Result<()> {
 }
 ```
 
-**Automatic tier classification** — simple messages (greetings, factual lookups) bypass Psyche entirely. Medium messages use COP (Compressed Output Protocol) for fast processing. Complex messages get the full pipeline.
+**Automatic tier classification** - simple messages (greetings, factual lookups) bypass Psyche entirely. Medium messages use COP (Compressed Output Protocol) for fast processing. Complex messages get the full pipeline.
 
-### Persona — Voice Extraction & Style Enforcement
+### Persona - Voice Extraction & Style Enforcement
 
-Extracts a writing personality from text samples and enforces it on LLM output. Platform-agnostic — works for emails, docs, chat, code reviews, support tickets.
+Extracts a writing personality from text samples and enforces it on LLM output. Platform-agnostic - works for emails, docs, chat, code reviews, support tickets.
 
-- **7-dimension extraction** — tone, humor, vocabulary, formality, perspective, emotional style, narrative preference
-- **Anti-hallucination** — validates LLM-claimed examples against real samples, cross-checks expertise claims
-- **Voice filter** — 6-layer post-generation rejection system catches AI-sounding output (60+ built-in AI phrase patterns)
-- **Voice DNA** — tracks distinctive phrases confirmed by repeated use, reinforces authentic style
+- **7-dimension extraction** - tone, humor, vocabulary, formality, perspective, emotional style, narrative preference
+- **Anti-hallucination** - validates LLM-claimed examples against real samples, cross-checks expertise claims
+- **Voice filter** - 6-layer post-generation rejection system catches AI-sounding output (60+ built-in AI phrase patterns)
+- **Voice DNA** - tracks distinctive phrases confirmed by repeated use, reinforces authentic style
 
 ```rust
 use laminae::persona::{PersonaExtractor, VoiceFilter, VoiceFilterConfig, compile_persona};
@@ -113,14 +113,14 @@ let result = filter.check("It's important to note that...");
 // result.retry_hints = ["DO NOT use formal/academic language..."]
 ```
 
-### Cortex — Self-Improving Learning Loop
+### Cortex - Self-Improving Learning Loop
 
-Tracks how users edit AI output and converts corrections into reusable instructions — without fine-tuning. The AI gets better with every edit.
+Tracks how users edit AI output and converts corrections into reusable instructions - without fine-tuning. The AI gets better with every edit.
 
-- **8 pattern types** — shortened, removed questions, stripped AI phrases, tone shifts, added content, simplified language, changed openers
-- **LLM-powered analysis** — converts edit diffs into natural-language instructions ("Never start with I think")
-- **Deduplicated store** — instructions ranked by reinforcement count, 80% word overlap deduplication
-- **Prompt injection** — top instructions formatted as a prompt block for any LLM
+- **8 pattern types** - shortened, removed questions, stripped AI phrases, tone shifts, added content, simplified language, changed openers
+- **LLM-powered analysis** - converts edit diffs into natural-language instructions ("Never start with I think")
+- **Deduplicated store** - instructions ranked by reinforcement count, 80% word overlap deduplication
+- **Prompt injection** - top instructions formatted as a prompt block for any LLM
 
 ```rust
 use laminae::cortex::{Cortex, CortexConfig};
@@ -143,14 +143,14 @@ let hints = cortex.get_prompt_block();
 //    ---"
 ```
 
-### Shadow — Adversarial Red-Teaming
+### Shadow - Adversarial Red-Teaming
 
-Automated security auditor that red-teams every AI response. Runs as an async post-processing pipeline — never blocks the conversation.
+Automated security auditor that red-teams every AI response. Runs as an async post-processing pipeline - never blocks the conversation.
 
 **Three stages:**
-1. **Static analysis** — Regex pattern scanning for 25+ vulnerability categories (eval injection, hardcoded secrets, SQL injection, XSS, path traversal, etc.)
-2. **LLM adversarial review** — Local Ollama model with an attacker-mindset prompt reviews the output
-3. **Sandbox execution** — Ephemeral container testing (optional)
+1. **Static analysis** - Regex pattern scanning for 25+ vulnerability categories (eval injection, hardcoded secrets, SQL injection, XSS, path traversal, etc.)
+2. **LLM adversarial review** - Local Ollama model with an attacker-mindset prompt reviews the output
+3. **Sandbox execution** - Ephemeral container testing (optional)
 
 ```rust
 use laminae::shadow::{ShadowEngine, ShadowEvent, create_report_store};
@@ -176,13 +176,13 @@ while let Some(event) = rx.recv().await {
 }
 ```
 
-### Ironclad — Process Execution Sandbox
+### Ironclad - Process Execution Sandbox
 
 Three hard constraints enforced on all spawned sub-processes:
 
-1. **Command whitelist** — Only approved binaries execute. SSH, curl, compilers, package managers, crypto miners permanently blocked.
-2. **Network egress filter** — Platform-native sandboxing (macOS `sandbox-exec`, Linux namespaces + seccomp) restricts network to localhost + whitelisted hosts.
-3. **Resource watchdog** — Background monitor polls CPU/memory, sends SIGKILL on sustained threshold violation.
+1. **Command whitelist** - Only approved binaries execute. SSH, curl, compilers, package managers, crypto miners permanently blocked.
+2. **Network egress filter** - Platform-native sandboxing (macOS `sandbox-exec`, Linux namespaces + seccomp) restricts network to localhost + whitelisted hosts.
+3. **Resource watchdog** - Background monitor polls CPU/memory, sends SIGKILL on sustained threshold violation.
 
 ```rust
 use laminae::ironclad::{validate_binary, sandboxed_command, spawn_watchdog, WatchdogConfig};
@@ -199,15 +199,15 @@ let child = cmd.spawn()?;
 let cancel = spawn_watchdog(child.id().unwrap(), WatchdogConfig::default(), "task".into());
 ```
 
-### Glassbox — I/O Containment
+### Glassbox - I/O Containment
 
 Rust-enforced containment that no LLM can reason its way out of:
 
-- **Input validation** — Detects prompt injection attempts
-- **Output validation** — Catches system prompt leaks, identity manipulation
-- **Command filtering** — Blocks dangerous shell commands (rm -rf, sudo, reverse shells)
-- **Path protection** — Immutable zones that can't be written to, even via symlink tricks
-- **Rate limiting** — Per-tool, per-minute, with separate write/shell limits
+- **Input validation** - Detects prompt injection attempts
+- **Output validation** - Catches system prompt leaks, identity manipulation
+- **Command filtering** - Blocks dangerous shell commands (rm -rf, sudo, reverse shells)
+- **Path protection** - Immutable zones that can't be written to, even via symlink tricks
+- **Rate limiting** - Per-tool, per-minute, with separate write/shell limits
 
 ```rust
 use laminae::glassbox::{Glassbox, GlassboxConfig};
@@ -286,8 +286,8 @@ patterns = c.detect_patterns()
 | Platform | Status |
 |----------|--------|
 | macOS | Full support (Seatbelt sandbox) |
-| Linux | Full support (namespaces + seccomp) |
-| Windows | Full support (Job Object sandbox) |
+| Linux | Partial (namespace isolation, seccomp planned) |
+| Windows | Partial (resource limits only, no filesystem/network isolation) |
 | WASM | Glassbox, Persona (voice filter), Cortex |
 | Python | Glassbox, VoiceFilter, Cortex via PyO3 |
 
@@ -307,7 +307,7 @@ All numbers from Criterion.rs on Apple M4 Max. Full results in [`BENCHMARKS.md`]
 | Static analyzer (10 lines) | ~7.4 ms | Shadow |
 | Secrets analyzer (100 lines) | ~428 µs | Shadow |
 
-Containment (Glassbox) adds <1µs per call — effectively zero overhead on any LLM pipeline.
+Containment (Glassbox) adds <1µs per call - effectively zero overhead on any LLM pipeline.
 
 ```bash
 cargo bench --workspace
@@ -316,7 +316,7 @@ cargo bench --workspace
 ## Requirements
 
 - **Rust 1.75+**
-- **Ollama** (for Psyche and Shadow LLM features) — `brew install ollama && ollama serve`
+- **Ollama** (for Psyche and Shadow LLM features) - `brew install ollama && ollama serve`
 
 ## Examples
 
@@ -376,7 +376,7 @@ Each crate is independent except:
 
 ## Author
 
-Built by [Orel Ohayon](https://orellius.ai) — solo dev building open-source Rust SDKs and developer tools for the AI ecosystem.
+Built by [Orel Ohayon](https://orellius.ai) - solo dev building open-source Rust SDKs and developer tools for the AI ecosystem.
 
 - [orellius.ai](https://orellius.ai)
 - [GitHub](https://github.com/orellius)
@@ -385,7 +385,7 @@ Built by [Orel Ohayon](https://orellius.ai) — solo dev building open-source Ru
 
 ## License
 
-Licensed under the Apache License, Version 2.0 — see [LICENSE](LICENSE) for details.
+Licensed under the Apache License, Version 2.0 - see [LICENSE](LICENSE) for details.
 
 Copyright 2026 Orel Ohayon.
 

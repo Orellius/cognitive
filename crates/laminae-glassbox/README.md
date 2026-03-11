@@ -1,16 +1,16 @@
 # laminae-glassbox
 
-Rust-enforced I/O containment layer for AI applications. The LLM operates *inside* the Glassbox — it cannot modify its own rules, bypass path validation, or exceed rate limits.
+Rust-enforced I/O containment layer for AI applications. The LLM operates *inside* the Glassbox - it cannot modify its own rules, bypass path validation, or exceed rate limits.
 
 Part of the [Laminae](https://github.com/Orellius/laminae) SDK.
 
 ## What It Enforces
 
-- **Input validation** — Detects prompt injection attempts
-- **Output validation** — Catches system prompt leaks and identity manipulation
-- **Command filtering** — Blocks dangerous shell commands (rm -rf, sudo, reverse shells, etc.)
-- **Path protection** — Immutable zones that can't be written to, even via symlink tricks
-- **Rate limiting** — Per-tool, per-minute, with separate write and shell limits
+- **Input validation** - Detects prompt injection attempts
+- **Output validation** - Catches system prompt leaks and identity manipulation
+- **Command filtering** - Blocks dangerous shell commands (rm -rf, sudo, reverse shells, etc.)
+- **Path protection** - Immutable zones that can't be written to, even via symlink tricks
+- **Rate limiting** - Per-tool, per-minute, with separate write and shell limits
 
 ## Quick Start
 
@@ -51,8 +51,8 @@ let gb = Glassbox::with_logger(GlassboxConfig::default(), Box::new(MyLogger));
 
 ## Design Philosophy
 
-All validation is deterministic and runs in constant time relative to the number of rules. No LLM reasoning is involved in enforcement — the containment is pure Rust, immune to prompt engineering.
+All validation is deterministic and runs in constant time relative to the number of rules. No LLM reasoning is involved in enforcement - the containment is pure Rust, immune to prompt engineering.
 
 ## License
 
-Apache-2.0 — see [LICENSE](../../LICENSE).
+Apache-2.0 - see [LICENSE](../../LICENSE).

@@ -1,13 +1,13 @@
-# Persona — Voice Extraction & Style Enforcement
+# Persona - Voice Extraction & Style Enforcement
 
 Extracts a writing personality from text samples and enforces it on LLM output.
 
 ## What It Does
 
-1. **Extract** — Feed it 5+ text samples → get a structured persona (7 voice dimensions)
-2. **Compile** — Turn a persona into a compact prompt block for any LLM
-3. **Filter** — Post-generation voice filter catches AI-sounding output (60+ patterns)
-4. **Track** — Voice DNA tracks distinctive phrases confirmed by reuse
+1. **Extract** - Feed it 5+ text samples → get a structured persona (7 voice dimensions)
+2. **Compile** - Turn a persona into a compact prompt block for any LLM
+3. **Filter** - Post-generation voice filter catches AI-sounding output (60+ patterns)
+4. **Track** - Voice DNA tracks distinctive phrases confirmed by reuse
 
 ## The 7 Voice Dimensions
 
@@ -26,7 +26,7 @@ Extracts a writing personality from text samples and enforces it on LLM output.
 Persona extraction now includes quality scoring:
 
 - **Minimum 3 samples required**, 5+ recommended
-- **Diversity scoring** — detects if samples are too similar
+- **Diversity scoring** - detects if samples are too similar
 - **Confidence score** (0.0–1.0) based on sample count, diversity, and content richness
 - **Warnings** for low-quality extractions
 
@@ -52,12 +52,12 @@ let prompt_block = compile_persona(&persona);
 
 The voice filter catches AI-sounding output with 6 detection layers:
 
-1. **AI vocabulary** — 60+ phrases like "it's important to note", "furthermore", "delve"
-2. **Meta-commentary** — "The post highlights..." openers
-3. **Multi-paragraph** — Optional rejection of multi-paragraph responses
-4. **Trailing questions** — Generic AI questions at the end
-5. **Em-dashes** — Replace with periods
-6. **Length violations** — Sentence and character limits
+1. **AI vocabulary** - 60+ phrases like "it's important to note", "furthermore", "delve"
+2. **Meta-commentary** - "The post highlights..." openers
+3. **Multi-paragraph** - Optional rejection of multi-paragraph responses
+4. **Trailing questions** - Generic AI questions at the end
+5. **Em-dashes** - Replace with periods
+6. **Length violations** - Sentence and character limits
 
 ```rust
 let filter = VoiceFilter::new(VoiceFilterConfig::default());

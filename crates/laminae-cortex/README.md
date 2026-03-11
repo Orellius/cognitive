@@ -2,16 +2,16 @@
 
 **Self-improving learning loop for LLM applications.**
 
-Part of the [Laminae](https://github.com/Orellius/Laminae) SDK — the missing layer between raw LLMs and production AI.
+Part of the [Laminae](https://github.com/Orellius/Laminae) SDK - the missing layer between raw LLMs and production AI.
 
 ## What It Does
 
-Tracks how users edit AI-generated output and converts those corrections into reusable instructions — without fine-tuning. The AI gets better with every edit.
+Tracks how users edit AI-generated output and converts those corrections into reusable instructions - without fine-tuning. The AI gets better with every edit.
 
-1. **Track** — Record pairs of (AI output, user's edited version)
-2. **Detect** — Identify edit patterns: shortening, tone shifts, AI phrase removal, question removal
-3. **Learn** — Use an LLM to convert edit diffs into natural-language instructions
-4. **Apply** — Get learned instructions as a prompt block for injection into any LLM
+1. **Track** - Record pairs of (AI output, user's edited version)
+2. **Detect** - Identify edit patterns: shortening, tone shifts, AI phrase removal, question removal
+3. **Learn** - Use an LLM to convert edit diffs into natural-language instructions
+4. **Apply** - Get learned instructions as a prompt block for injection into any LLM
 
 ## Installation
 
@@ -119,4 +119,4 @@ let config = CortexConfig {
 
 ## License
 
-Apache-2.0 — Copyright 2026 Orel Ohayon.
+Apache-2.0 - Copyright 2026 Orel Ohayon.

@@ -38,6 +38,6 @@ ANTHROPIC_API_KEY=sk-ant-... cargo run
 
 | Variable | Required | Default |
 |----------|----------|---------|
-| `ANTHROPIC_API_KEY` | Yes | — |
+| `ANTHROPIC_API_KEY` | Yes | - |
 | `CLAUDE_MODEL` | No | `claude-sonnet-4-20250514` |
 | `CLAUDE_MAX_TOKENS` | No | `4096` |

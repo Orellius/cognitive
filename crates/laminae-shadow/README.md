@@ -1,14 +1,14 @@
 # laminae-shadow
 
-Adversarial red-teaming engine that automatically audits AI output for security vulnerabilities. Runs as an async post-processing pipeline — never blocks the conversation.
+Adversarial red-teaming engine that automatically audits AI output for security vulnerabilities. Runs as an async post-processing pipeline - never blocks the conversation.
 
 Part of the [Laminae](https://github.com/Orellius/laminae) SDK.
 
 ## Pipeline Stages
 
-1. **Static analysis** — Pattern scanning for 25+ vulnerability categories across multiple analyzers
-2. **LLM adversarial review** — Local Ollama model with an attacker-mindset prompt
-3. **Sandbox execution** — Ephemeral container testing (optional)
+1. **Static analysis** - Pattern scanning for 25+ vulnerability categories across multiple analyzers
+2. **LLM adversarial review** - Local Ollama model with an attacker-mindset prompt
+3. **Sandbox execution** - Ephemeral container testing (optional)
 
 ## Built-in Analyzers
 
@@ -90,10 +90,10 @@ impl Analyzer for MyAnalyzer {
 ```
 
 Aggressiveness levels:
-- **1** — Static analysis only (no Ollama required)
-- **2** — Static + LLM adversarial review
-- **3** — Static + LLM + sandbox execution
+- **1** - Static analysis only (no Ollama required)
+- **2** - Static + LLM adversarial review
+- **3** - Static + LLM + sandbox execution
 
 ## License
 
-Apache-2.0 — see [LICENSE](../../LICENSE).
+Apache-2.0 - see [LICENSE](../../LICENSE).

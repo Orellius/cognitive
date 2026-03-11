@@ -67,4 +67,4 @@ See the [examples](https://github.com/Orellius/laminae/tree/main/crates/laminae/
 
 ## License
 
-Apache-2.0 — Copyright 2026 Orel Ohayon.
+Apache-2.0 - Copyright 2026 Orel Ohayon.

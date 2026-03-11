@@ -64,7 +64,7 @@ gb.validate_output(&final_response)?;
 let store = create_report_store();
 let shadow = ShadowEngine::new(store);
 let _rx = shadow.analyze_async("session".into(), final_response.clone());
-// Shadow runs in background — doesn't block the user
+// Shadow runs in background - doesn't block the user
 
 // 10. Send to user
 send_to_user(&final_response);

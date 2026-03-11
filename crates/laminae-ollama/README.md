@@ -1,6 +1,6 @@
 # laminae-ollama
 
-Standalone Rust client for [Ollama](https://ollama.ai) — local LLM inference with zero cost, no API keys, no network egress.
+Standalone Rust client for [Ollama](https://ollama.ai) - local LLM inference with zero cost, no API keys, no network egress.
 
 Part of the [Laminae](https://github.com/Orellius/laminae) SDK.
 
@@ -64,4 +64,4 @@ let client = OllamaClient::with_config(OllamaConfig {
 
 ## License
 
-Apache-2.0 — see [LICENSE](../../LICENSE).
+Apache-2.0 - see [LICENSE](../../LICENSE).

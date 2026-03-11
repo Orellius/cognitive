@@ -1,6 +1,6 @@
-# Cortex — Self-Improving Learning Loop
+# Cortex - Self-Improving Learning Loop
 
-Tracks how users edit AI output and converts corrections into reusable instructions — without fine-tuning.
+Tracks how users edit AI output and converts corrections into reusable instructions - without fine-tuning.
 
 ## How It Works
 
@@ -57,4 +57,4 @@ Instructions are ranked by reinforcement count. When a new instruction has >80% 
 
 ## Performance
 
-Edit tracking is near-instant (85 ns per edit). Pattern detection scales linearly — 500 accumulated edits analyzed in ~2 ms.
+Edit tracking is near-instant (85 ns per edit). Pattern detection scales linearly - 500 accumulated edits analyzed in ~2 ms.

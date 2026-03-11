@@ -1,14 +1,14 @@
-# Glassbox — I/O Containment
+# Glassbox - I/O Containment
 
 Rust-enforced containment that no LLM can reason its way out of.
 
 ## Capabilities
 
-- **Input validation** — Detects prompt injection attempts
-- **Output validation** — Catches system prompt leaks, identity manipulation
-- **Command filtering** — Blocks dangerous shell commands
-- **Path protection** — Immutable zones that can't be written to
-- **Rate limiting** — Per-tool, per-minute, with separate write/shell limits
+- **Input validation** - Detects prompt injection attempts
+- **Output validation** - Catches system prompt leaks, identity manipulation
+- **Command filtering** - Blocks dangerous shell commands
+- **Path protection** - Immutable zones that can't be written to
+- **Rate limiting** - Per-tool, per-minute, with separate write/shell limits
 
 ## Usage
 

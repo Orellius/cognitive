@@ -3,7 +3,7 @@
 All benchmarks run on Apple M4 Max using [Criterion.rs](https://github.com/bheisler/criterion.rs).
 Run locally with `cargo bench --workspace`.
 
-## Glassbox — I/O Containment
+## Glassbox - I/O Containment
 
 | Operation | Input Size | Time |
 |-----------|-----------|------|
@@ -19,7 +19,7 @@ Run locally with `cargo bench --workspace`.
 
 **Takeaway**: All validation ops complete in under 10 µs. Glassbox adds negligible overhead to any LLM pipeline.
 
-## Ironclad — Process Sandbox
+## Ironclad - Process Sandbox
 
 | Operation | Variant | Time |
 |-----------|---------|------|
@@ -29,9 +29,9 @@ Run locally with `cargo bench --workspace`.
 | `validate_binary` | full path (`/usr/bin/ssh`) | ~1.2 µs |
 | `validate_command_deep` | simple (`ls -la`) | ~1.6 µs |
 
-**Takeaway**: Binary validation is constant-time regardless of allow/block status — no timing side-channels.
+**Takeaway**: Binary validation is constant-time regardless of allow/block status - no timing side-channels.
 
-## Persona — Voice Filter
+## Persona - Voice Filter
 
 | Operation | Input Size | Time |
 |-----------|-----------|------|
@@ -45,7 +45,7 @@ Run locally with `cargo bench --workspace`.
 
 **Takeaway**: Voice filter scales linearly with text length. AI-heavy text is no slower than clean text (detection is regex-based, same pass).
 
-## Shadow — Red-Team Analysis
+## Shadow - Red-Team Analysis
 
 | Operation | Input Size | Time |
 |-----------|-----------|------|
@@ -59,7 +59,7 @@ Run locally with `cargo bench --workspace`.
 
 **Takeaway**: Static analysis is the heaviest operation due to 25+ regex patterns. Secrets analysis is ~100x faster. Shadow runs async so it never blocks the conversation.
 
-## Cortex — Learning Loop
+## Cortex - Learning Loop
 
 | Operation | Input Size | Time |
 |-----------|-----------|------|
@@ -70,7 +70,7 @@ Run locally with `cargo bench --workspace`.
 | `detect_patterns` | 100 edits | ~426 µs |
 | `detect_patterns` | 500 edits | ~2.2 ms |
 
-**Takeaway**: Edit tracking is near-instant (85 ns). Pattern detection scales linearly — 500 accumulated edits analyzed in ~2 ms.
+**Takeaway**: Edit tracking is near-instant (85 ns). Pattern detection scales linearly - 500 accumulated edits analyzed in ~2 ms.
 
 ## Running Benchmarks
 

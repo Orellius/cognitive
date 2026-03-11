@@ -12,7 +12,7 @@ cargo test --all
 
 **Requirements:**
 - Rust 1.75+
-- Ollama (optional — needed for Psyche/Shadow LLM tests)
+- Ollama (optional - needed for Psyche/Shadow LLM tests)
 
 ## Development Workflow
 
@@ -44,15 +44,15 @@ cargo test --all         # Test
 - Follow standard Rust idioms
 - Use `thiserror` for error types, `anyhow` for application errors
 - Use `tracing` for logging (not `println!`)
-- No `unwrap()` in library code — return `Result`
+- No `unwrap()` in library code - return `Result`
 - Tests go in `#[cfg(test)] mod tests` blocks in the same file
-- Keep dependencies minimal — every new dep is a liability
+- Keep dependencies minimal - every new dep is a liability
 
 ## Architecture Rules
 
 - Each crate must work independently (except declared dependencies)
-- No hardcoded paths — all paths must be configurable
-- Security layers (Glassbox, Ironclad) must be deterministic — no LLM reasoning in the enforcement path
+- No hardcoded paths - all paths must be configurable
+- Security layers (Glassbox, Ironclad) must be deterministic - no LLM reasoning in the enforcement path
 - The LLM operates *inside* containment, never outside it
 
 ## License

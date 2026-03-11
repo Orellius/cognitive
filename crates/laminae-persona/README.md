@@ -2,16 +2,16 @@
 
 **Voice persona extraction and style enforcement for LLM output.**
 
-Part of the [Laminae](https://github.com/Orellius/Laminae) SDK — the missing layer between raw LLMs and production AI.
+Part of the [Laminae](https://github.com/Orellius/Laminae) SDK - the missing layer between raw LLMs and production AI.
 
 ## What It Does
 
-Extracts a writing personality from text samples and enforces it on LLM output. Platform-agnostic — works for emails, docs, chat, code reviews, support tickets.
+Extracts a writing personality from text samples and enforces it on LLM output. Platform-agnostic - works for emails, docs, chat, code reviews, support tickets.
 
-1. **Extract** — Feed it 20-100 text samples → get a structured persona (tone, humor, vocabulary, formality, perspective, emotional style, narrative preference)
-2. **Compile** — Turn a persona into a compact prompt block for any LLM
-3. **Filter** — Post-generation voice filter catches AI-sounding output
-4. **Track** — Voice DNA tracks distinctive phrases confirmed by reuse
+1. **Extract** - Feed it 20-100 text samples → get a structured persona (tone, humor, vocabulary, formality, perspective, emotional style, narrative preference)
+2. **Compile** - Turn a persona into a compact prompt block for any LLM
+3. **Filter** - Post-generation voice filter catches AI-sounding output
+4. **Track** - Voice DNA tracks distinctive phrases confirmed by reuse
 
 ## Installation
 
@@ -99,11 +99,11 @@ The filter runs 6 detection layers in sequence:
 | **Tone words** | sharp, witty, blunt, assertive |
 | **Writing style** | "Short punchy sentences with no padding" |
 | **Humor style** | "Dry sarcasm, never forced" |
-| **Emotional range** | "Controlled intensity — calm until provoked" |
+| **Emotional range** | "Controlled intensity - calm until provoked" |
 | **Sentence length** | VeryShort, Short, Medium, Long |
 | **Punctuation** | "Heavy periods, rare commas, occasional dashes" |
 | **Voice summary** | "You write like a telegram operator with opinions..." |
 
 ## License
 
-Apache-2.0 — Copyright 2026 Orel Ohayon.
+Apache-2.0 - Copyright 2026 Orel Ohayon.

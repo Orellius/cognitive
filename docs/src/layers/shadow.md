@@ -1,6 +1,6 @@
-# Shadow — Adversarial Red-Teaming
+# Shadow - Adversarial Red-Teaming
 
-Automated security auditor that red-teams every AI response. Runs as an async post-processing pipeline — never blocks the conversation.
+Automated security auditor that red-teams every AI response. Runs as an async post-processing pipeline - never blocks the conversation.
 
 ## Three Stages
 
@@ -21,12 +21,12 @@ A local Ollama model with an attacker-mindset prompt reviews the output. Catches
 
 ### Stage 3: Sandbox Execution
 Runs code blocks in ephemeral Docker/Podman containers with strict security constraints:
-- `--network=none` — no network access
-- `--memory=128m` — memory limit
-- `--cpus=0.5` — CPU limit
+- `--network=none` - no network access
+- `--memory=128m` - memory limit
+- `--cpus=0.5` - CPU limit
 - `--read-only` root filesystem
-- `--cap-drop=ALL` — drop all Linux capabilities
-- TTL timeout — force-kills after configured seconds
+- `--cap-drop=ALL` - drop all Linux capabilities
+- TTL timeout - force-kills after configured seconds
 
 Analyzes output for network access attempts, filesystem violations, privilege escalation, and crash signals.
 

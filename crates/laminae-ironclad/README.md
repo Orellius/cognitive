@@ -22,7 +22,7 @@ validate_binary("npm")?;   // Error: permanently blocked
 
 ### 2. Network Egress Filter
 
-Wraps commands in a macOS `sandbox-exec` profile — no inbound connections, outbound restricted to localhost and whitelisted hosts.
+Wraps commands in a macOS `sandbox-exec` profile - no inbound connections, outbound restricted to localhost and whitelisted hosts.
 
 ```rust
 use laminae_ironclad::sandboxed_command;
@@ -76,9 +76,10 @@ let config = IroncladConfig {
 
 ## Platform Support
 
-- **macOS** — Full support (`sandbox-exec` + process monitoring)
-- **Linux** — Planned (seccomp-bpf / landlock)
+- **macOS** - Full support (`sandbox-exec` + process monitoring)
+- **Linux** - Partial (namespace isolation, seccomp-bpf / landlock planned)
+- **Windows** - Partial (resource limits only, no filesystem/network isolation)
 
 ## License
 
-Apache-2.0 — see [LICENSE](../../LICENSE).
+Apache-2.0 - see [LICENSE](../../LICENSE).

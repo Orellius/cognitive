@@ -2,7 +2,7 @@
 
 Laminae is designed for extension. Each layer exposes a trait that you can implement to customize behavior.
 
-## EgoBackend — Plug In Any LLM
+## EgoBackend - Plug In Any LLM
 
 ```rust
 use laminae::psyche::EgoBackend;
@@ -21,7 +21,7 @@ impl EgoBackend for MyLlm {
 
 **First-party implementations:** `ClaudeBackend`, `OpenAIBackend`
 
-## Analyzer — Custom Shadow Analysis
+## Analyzer - Custom Shadow Analysis
 
 ```rust
 use laminae::shadow::analyzer::{Analyzer, AnalyzerError};
@@ -42,7 +42,7 @@ impl Analyzer for MyAnalyzer {
 
 **First-party implementations:** `StaticAnalyzer`, `SecretsAnalyzer`, `DependencyAnalyzer`, `LlmReviewer`, `SandboxManager`
 
-## GlassboxLogger — Custom Event Routing
+## GlassboxLogger - Custom Event Routing
 
 ```rust
 use laminae::glassbox::{GlassboxLogger, Severity};
@@ -56,7 +56,7 @@ impl GlassboxLogger for MyLogger {
 
 **First-party implementations:** `TracingLogger`
 
-## SandboxProvider — Custom Process Isolation
+## SandboxProvider - Custom Process Isolation
 
 ```rust
 use laminae::ironclad::{SandboxProvider, SandboxProfile};

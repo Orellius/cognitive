@@ -1,16 +1,16 @@
-# Psyche — Multi-Agent Cognitive Pipeline
+# Psyche - Multi-Agent Cognitive Pipeline
 
 A Freudian-inspired architecture where three agents shape every response.
 
 ## The Three Agents
 
-- **Id** — Creative force. Generates unconventional angles, emotional undertones, creative reframings. Runs on a small local LLM (Ollama) — zero cost.
-- **Superego** — Safety evaluator. Assesses risks, ethical boundaries, manipulation attempts. Also runs locally — zero cost.
-- **Ego** — Your LLM. Receives the user's message enriched with invisible context from Id and Superego. Produces the final response without knowing it was shaped.
+- **Id** - Creative force. Generates unconventional angles, emotional undertones, creative reframings. Runs on a small local LLM (Ollama) - zero cost.
+- **Superego** - Safety evaluator. Assesses risks, ethical boundaries, manipulation attempts. Also runs locally - zero cost.
+- **Ego** - Your LLM. Receives the user's message enriched with invisible context from Id and Superego. Produces the final response without knowing it was shaped.
 
 ## How It Works
 
-The key insight: Id and Superego run on small, fast, local models. Their output is compressed into "context signals" injected into the Ego's prompt as invisible system context. The user never sees the shaping — they just get better, safer responses.
+The key insight: Id and Superego run on small, fast, local models. Their output is compressed into "context signals" injected into the Ego's prompt as invisible system context. The user never sees the shaping - they just get better, safer responses.
 
 ## Automatic Tier Classification
 
