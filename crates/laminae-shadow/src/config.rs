@@ -141,15 +141,25 @@ impl ShadowConfig {
     pub fn load_from(path: PathBuf) -> Self {
         match std::fs::read_to_string(&path) {
             Ok(content) => {
-                let mut config: Self = serde_json::from_str(&content).unwrap_or_default();
+                let mut config: Self = match serde_json::from_str(&content) {
+                    Ok(c) => c,
+                    Err(e) => {
+                        tracing::warn!("Failed to parse Shadow config at {}: {e}, using defaults", path.display());
+                        Self::default()
+                    }
+                };
                 config.config_path = Some(path);
                 config.clamp();
                 config
             }
-            Err(_) => Self {
-                config_path: Some(path),
-                ..Self::default()
-            },
+            Err(_) => {
+                let mut config = Self {
+                    config_path: Some(path),
+                    ..Self::default()
+                };
+                config.clamp();
+                config
+            }
         }
     }
 

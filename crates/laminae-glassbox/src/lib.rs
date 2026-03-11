@@ -112,11 +112,12 @@ impl Default for TracingLogger {
 impl GlassboxLogger for TracingLogger {
     fn log(&self, event: GlassboxEvent) {
         let msg = &event.message;
+        let cat = &event.category;
         match event.severity {
-            Severity::Info => tracing::info!("[GLASSBOX] {msg}"),
-            Severity::Warn => tracing::warn!("[GLASSBOX] {msg}"),
-            Severity::Block => tracing::warn!("[GLASSBOX BLOCK] {msg}"),
-            Severity::Alert => tracing::error!("[GLASSBOX ALERT] {msg}"),
+            Severity::Info => tracing::info!("[GLASSBOX][{cat}] {msg}"),
+            Severity::Warn => tracing::warn!("[GLASSBOX][{cat}] {msg}"),
+            Severity::Block => tracing::warn!("[GLASSBOX BLOCK][{cat}] {msg}"),
+            Severity::Alert => tracing::error!("[GLASSBOX ALERT][{cat}] {msg}"),
         }
 
         if let Some(ref path) = self.log_path {
@@ -565,13 +566,12 @@ fn truncate(s: &str, max: usize) -> &str {
 // ── Public Logging Helper ──
 
 /// Convenience function for emitting a Glassbox event via tracing (no Glassbox instance needed).
-pub fn log_glassbox_event(severity: Severity, _category: &str, message: &str) {
-    let msg = message;
+pub fn log_glassbox_event(severity: Severity, category: &str, message: &str) {
     match severity {
-        Severity::Info => tracing::info!("[GLASSBOX] {msg}"),
-        Severity::Warn => tracing::warn!("[GLASSBOX] {msg}"),
-        Severity::Block => tracing::warn!("[GLASSBOX BLOCK] {msg}"),
-        Severity::Alert => tracing::error!("[GLASSBOX ALERT] {msg}"),
+        Severity::Info => tracing::info!("[GLASSBOX][{category}] {message}"),
+        Severity::Warn => tracing::warn!("[GLASSBOX][{category}] {message}"),
+        Severity::Block => tracing::warn!("[GLASSBOX BLOCK][{category}] {message}"),
+        Severity::Alert => tracing::error!("[GLASSBOX ALERT][{category}] {message}"),
     }
 }
 

@@ -48,10 +48,23 @@ pub enum VulnCategory {
 
 impl fmt::Display for VulnCategory {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let s = serde_json::to_value(self)
-            .ok()
-            .and_then(|v| v.as_str().map(String::from))
-            .unwrap_or_else(|| format!("{:?}", self));
+        let s = match self {
+            Self::SqlInjection => "sql_injection",
+            Self::CommandInjection => "command_injection",
+            Self::PathTraversal => "path_traversal",
+            Self::HardcodedSecret => "hardcoded_secret",
+            Self::XssReflected => "xss_reflected",
+            Self::XssStored => "xss_stored",
+            Self::InsecureDeserialization => "insecure_deserialization",
+            Self::DataExfiltration => "data_exfiltration",
+            Self::PrivilegeEscalation => "privilege_escalation",
+            Self::CryptoWeakness => "crypto_weakness",
+            Self::LogicFlaw => "logic_flaw",
+            Self::AdversarialLogic => "adversarial_logic",
+            Self::SandboxEscape => "sandbox_escape",
+            Self::ResourceAbuse => "resource_abuse",
+            Self::Unknown => "unknown",
+        };
         write!(f, "{s}")
     }
 }

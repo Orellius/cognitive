@@ -447,7 +447,7 @@ impl<E: EgoBackend + 'static> PsycheEngine<E> {
 
         // Check for BLOCK verdict from Superego
         if let Some(block_reason) = prompts::extract_block_reason(&superego_output) {
-            return Ok(block_reason);
+            return Err(PsycheError::Blocked(block_reason).into());
         }
 
         let context = ego_context_cop(&id_output, &superego_output, &self.config);
@@ -470,7 +470,7 @@ impl<E: EgoBackend + 'static> PsycheEngine<E> {
         let superego_output = superego_result.unwrap_or_default();
 
         if let Some(block_reason) = prompts::extract_block_reason(&superego_output) {
-            return Ok(block_reason);
+            return Err(PsycheError::Blocked(block_reason).into());
         }
 
         let context = ego_context(&id_output, &superego_output, &self.config);
