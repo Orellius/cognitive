@@ -60,6 +60,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
       - run: cargo install cargo-audit
+      # RUSTSEC-2025-0020: pyo3 <0.24.1 PyString::from_object buffer overflow.
+      # laminae-python does NOT call PyString::from_object — no exploitable path.
+      # Suppressed until pyo3 0.24+ upgrade (breaking API changes, tracked separately).
       - run: cargo audit --ignore RUSTSEC-2025-0020
 
   msrv:

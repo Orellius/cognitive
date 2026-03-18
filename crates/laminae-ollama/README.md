@@ -59,7 +59,7 @@ use laminae_ollama::{OllamaClient, OllamaConfig};
 let client = OllamaClient::with_config(OllamaConfig {
     base_url: "http://10.0.0.5:11434".to_string(),
     timeout_secs: 120,
-});
+})?;
 ```
 
 ## License

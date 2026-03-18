@@ -242,21 +242,21 @@ tokio = { version = "1", features = ["full"] }
 
 # With first-class LLM backends
 [dependencies]
-laminae = { version = "0.3", features = ["anthropic"] }  # Claude
-laminae = { version = "0.3", features = ["openai"] }     # OpenAI / Groq / Together / DeepSeek / local
-laminae = { version = "0.3", features = ["all-backends"] }
+laminae = { version = "0.4", features = ["anthropic"] }  # Claude
+laminae = { version = "0.4", features = ["openai"] }     # OpenAI / Groq / Together / DeepSeek / local
+laminae = { version = "0.4", features = ["all-backends"] }
 
 # Or pick individual layers
 [dependencies]
-laminae-psyche = "0.3"       # Just the cognitive pipeline
-laminae-persona = "0.3"      # Just voice extraction & enforcement
-laminae-cortex = "0.3"       # Just the learning loop
-laminae-shadow = "0.3"       # Just the red-teaming
-laminae-glassbox = "0.3"     # Just the containment
-laminae-ironclad = "0.3"     # Just the sandbox
-laminae-ollama = "0.3"       # Just the Ollama client
-laminae-anthropic = "0.3"    # Claude EgoBackend
-laminae-openai = "0.3"       # OpenAI-compatible EgoBackend
+laminae-psyche = "0.4"       # Just the cognitive pipeline
+laminae-persona = "0.4"      # Just voice extraction & enforcement
+laminae-cortex = "0.4"       # Just the learning loop
+laminae-shadow = "0.4"       # Just the red-teaming
+laminae-glassbox = "0.4"     # Just the containment
+laminae-ironclad = "0.4"     # Just the sandbox
+laminae-ollama = "0.4"       # Just the Ollama client
+laminae-anthropic = "0.4"    # Claude EgoBackend
+laminae-openai = "0.4"       # OpenAI-compatible EgoBackend
 ```
 
 ## Python Bindings

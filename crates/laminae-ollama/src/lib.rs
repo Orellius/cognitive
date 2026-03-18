@@ -146,21 +146,32 @@ struct ModelInfo {
 
 impl OllamaClient {
     /// Create a client with default settings (localhost:11434, 60s timeout).
+    ///
+    /// # Panics
+    ///
+    /// Panics if the HTTP client cannot be initialized. This should only happen
+    /// if the TLS backend is unavailable on the platform.
     pub fn new() -> Self {
         Self::with_config(OllamaConfig::default())
+            .expect("failed to build HTTP client with default OllamaConfig")
     }
 
     /// Create a client with custom configuration.
-    pub fn with_config(config: OllamaConfig) -> Self {
+    ///
+    /// # Errors
+    ///
+    /// Returns [`OllamaError::ConnectionFailed`] if the HTTP client cannot be
+    /// initialized (e.g. TLS backend unavailable).
+    pub fn with_config(config: OllamaConfig) -> Result<Self, OllamaError> {
         let http = reqwest::Client::builder()
             .timeout(std::time::Duration::from_secs(config.timeout_secs))
             .build()
-            .unwrap_or_default();
+            .map_err(|e| OllamaError::ConnectionFailed(e.to_string()))?;
 
-        Self {
+        Ok(Self {
             http,
             base_url: config.base_url,
-        }
+        })
     }
 
     /// Check if Ollama is running and reachable.
@@ -426,7 +437,8 @@ mod tests {
         let client = OllamaClient::with_config(OllamaConfig {
             base_url: "http://10.0.0.5:11434".to_string(),
             timeout_secs: 120,
-        });
+        })
+        .expect("failed to build client with custom config");
         assert_eq!(client.base_url, "http://10.0.0.5:11434");
     }
 
